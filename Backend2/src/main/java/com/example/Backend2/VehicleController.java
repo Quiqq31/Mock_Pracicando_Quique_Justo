@@ -18,7 +18,7 @@ public class VehicleController {
     }
 
     @PostMapping("/vehicles")
-    public void createVehicle(@RequestBody Vehicle newVehicle) throws IOException {
+    public ArrayList<Vehicle> createVehicle(@RequestBody Vehicle newVehicle) throws IOException {
         JsonManager manager = new JsonManager();
         ArrayList<Vehicle> vehicleList = manager.getVehicles();
 
@@ -33,5 +33,6 @@ public class VehicleController {
         vehicleList.add(newVehicle);
         manager.saveVehicles(vehicleList);
 
+        return vehicleList;
     }
 }
