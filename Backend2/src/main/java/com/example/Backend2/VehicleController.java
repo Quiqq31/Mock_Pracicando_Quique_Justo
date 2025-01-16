@@ -35,4 +35,26 @@ public class VehicleController {
 
         return vehicleList;
     }
+
+    // FOR UNIT TESTS
+
+
+    @GetMapping("/vehiclesTESTS")
+    public ArrayList<Vehicle> getVehiclesTESTSController() throws IOException{
+        JsonManager manager = new JsonManager();
+        ArrayList<Vehicle> vehicles = manager.getVehiclesTESTS();
+
+        return vehicles;
+    }
+
+    @PostMapping("/vehiclesTests")
+    public ArrayList<Vehicle> createVehicleTESTSController(@RequestBody Vehicle newVehicle) throws IOException {
+        JsonManager manager = new JsonManager();
+        ArrayList<Vehicle> vehicleList = manager.getVehiclesTESTS();
+
+        vehicleList.add(newVehicle);
+        manager.saveVehiclesTESTS(vehicleList);
+
+        return vehicleList;
+    }
 }
