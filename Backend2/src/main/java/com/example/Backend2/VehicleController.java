@@ -7,23 +7,32 @@ import java.util.*;
 
 
 @RestController
-@RequestMapping("/vehicles")
 public class VehicleController {
-
-    private ArrayList<Vehicle> vehicles = new ArrayList<>();
-    private final String filePath = "src/main/resources/vehicles.json";
     
-
-    @GetMapping
-    public ArrayList<Vehicle> getVehicles() {
-
+    @GetMapping("/vehicles")
+    public ArrayList<Vehicle> getVehicles() throws IOException{
+        JsonManager manager = new JsonManager();
+        ArrayList<Vehicle> vehicles = manager.getVehicles();
 
         return vehicles;
     }
 
-    @PostMapping
-    public void addVehicle(@RequestBody Vehicle vehicle) {
-        
-        
+    @PostMapping("/vehicles")
+    public ArrayList<Vehicle> createVehicle(@RequestBody Vehicle newVehicle) throws IOException {
+        JsonManager manager = new JsonManager();
+        ArrayList<Vehicle> vehicleList = manager.getVehicles();
+
+        // sin datos de entrada, se genera un vehículo aleatorio
+        newVehicle.setLicensePlate("YYY-0000");
+        newVehicle.setMake("Toyota");
+        newVehicle.setModel("Yaris GR");
+        newVehicle.setType("Copue");
+        newVehicle.setYear(2021);
+        newVehicle.setAvailability(true);
+
+        vehicleList.add(newVehicle);
+        manager.saveVehicles(vehicleList);
+
+        return vehicleList;
     }
 }
