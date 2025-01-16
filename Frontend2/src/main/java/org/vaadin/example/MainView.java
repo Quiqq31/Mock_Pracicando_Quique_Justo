@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
@@ -11,9 +12,11 @@ import com.vaadin.flow.router.Route;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.combobox.ComboBox;
 
 /**
  * A sample Vaadin view class.
@@ -40,6 +43,8 @@ public class MainView extends VerticalLayout {
      */
     public MainView(@Autowired GreetService service) throws IOException, InterruptedException, URISyntaxException {
 
+        // Set grid columns and populate with data
+
         Grid<Vehicle> grid = new Grid<>(Vehicle.class, false);
         grid.addColumn(Vehicle::getLicensePlate).setHeader("License Plate");
         grid.addColumn(Vehicle::getMake).setHeader("Make");
@@ -50,7 +55,54 @@ public class MainView extends VerticalLayout {
 
         ArrayList<Vehicle> vehicle = DataService.getVehicles();
         grid.setItems(vehicle);
+
+        // Filter for Available and Not Available Vehicles
+
+        ComboBox<String> availabilityFilter = new ComboBox<>("Availability");
+        availabilityFilter.setItems("All", "Available", "Not Available");
+        availabilityFilter.setValue("All");
+
+        availabilityFilter.addValueChangeListener(event -> {
+            String filterValue = event.getValue();
+            if ("Available".equals(filterValue)) {
+                grid.setItems(vehicle.stream().filter(Vehicle::getAvailability).collect(Collectors.toList()));
+            } else if ("Not Available".equals(filterValue)) {
+                grid.setItems(vehicle.stream().filter(v -> !v.getAvailability()).collect(Collectors.toList()));
+            } else {
+                grid.setItems(vehicle);
+            }
+        });
+
+        // Add Vehicle trhough forms
+        TextField licensePlateField = new TextField("License Plate");
+        TextField makeField = new TextField("Make");
+        TextField modelField = new TextField("Model");
+        TextField yearField = new TextField("Year");
+        ComboBox<String> typeField = new ComboBox<>("Type");
+        typeField.setItems("SUV", "Truk","Sedan", "Coupe");
+        ComboBox<Boolean> availabilityField = new ComboBox<>("Availability");
+        availabilityField.setItems(true, false);
+
+        Button addButton = new Button("Add Vehicle");
+        addButton.addClickListener(e -> {
+            String licensePlate = licensePlateField.getValue();
+            String make = makeField.getValue();
+            String model = modelField.getValue();
+            int year = Integer.parseInt(yearField.getValue()); // XXXX
+            String type = typeField.getValue();
+            boolean availability = availabilityField.getValue(); // true or false
+
+            Vehicle newVehicle = new Vehicle(make, model, year, type, licensePlate, availability);
+            vehicle.add(newVehicle);
+            grid.setItems(vehicle);
+        });
+
+        HorizontalLayout formLayout = new HorizontalLayout();
         
+        formLayout.add(licensePlateField, makeField, modelField, yearField, typeField, availabilityField, addButton);
+        add(formLayout);
+        add(availabilityFilter);
         add(grid);
+
     }
 }
