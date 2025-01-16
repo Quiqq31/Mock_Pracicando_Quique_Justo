@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -51,6 +52,7 @@ public class MainView extends VerticalLayout {
         grid.addColumn(Vehicle::getModel).setHeader("Model");
         grid.addColumn(Vehicle::getYear).setHeader("Year");
         grid.addColumn(Vehicle::getType).setHeader("Type");
+        grid.addColumn(Vehicle::getUuid).setHeader("UUID");
         grid.addColumn(Vehicle::getAvailability).setHeader("Availability");
 
         ArrayList<Vehicle> vehicle = DataService.getVehicles();
@@ -93,8 +95,21 @@ public class MainView extends VerticalLayout {
             boolean availability = availabilityField.getValue(); // true or false
 
             Vehicle newVehicle = new Vehicle(make, model, year, type, licensePlate, availability);
-            vehicle.add(newVehicle);
-            grid.setItems(vehicle);
+
+            // Check if all fields are filled out, if not show an error message
+            if (licensePlate.isEmpty() || make.isEmpty() || model.isEmpty() || yearField.isEmpty() || type == null || availabilityField.isEmpty()) {
+                // Show an error message or notification
+                Notification.show("All fields must be filled out.", 3000, Notification.Position.MIDDLE);
+                return;
+            }
+
+            try {
+                DataService.createVehicle(newVehicle);
+                vehicle.add(newVehicle);
+                grid.setItems(vehicle);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
 
         HorizontalLayout formLayout = new HorizontalLayout();
