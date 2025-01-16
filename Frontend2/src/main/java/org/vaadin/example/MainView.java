@@ -107,6 +107,7 @@ public class MainView extends VerticalLayout {
                 DataService.createVehicle(newVehicle);
                 vehicle.add(newVehicle);
                 grid.setItems(vehicle);
+                Notification.show("Vehicle Created Succesfully", 3000, Notification.Position.MIDDLE);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
