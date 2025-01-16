@@ -11,21 +11,25 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class JsonManager {
-      public ArrayList<Vehicle> getUsers() throws IOException{
+    public ArrayList<Vehicle> getVehicles() throws IOException{
     String root = System.getProperty("user.dir");
-    String path = root + "/src/main/resources/users.json";
+    String path = root + "src/main/resources/vehicles.json";
+
     String jsonContent = new String(Files.readAllBytes(Paths.get(path)));
+
     Gson gson = new Gson();
-    Type userListType = new TypeToken<ArrayList<Vehicle>>(){}.getType();
-    ArrayList<Vehicle> users = gson.fromJson(jsonContent, userListType);
-    return users;
+    Type vehicleListType = new TypeToken<ArrayList<Vehicle>>(){}.getType();
+    ArrayList<Vehicle> vehicleList = gson.fromJson(jsonContent, vehicleListType);
+    return vehicleList;
   }
 
-  public void saveUsers(ArrayList<Vehicle> users) throws IOException{
+  public void saveVehicles(ArrayList<Vehicle> vehicles) throws IOException{
     Gson gson = new Gson();
-    String jsonContent = gson.toJson(users);
+    String jsonContent = gson.toJson(vehicles);
+
     String projectRoot = System.getProperty("user.dir");
-    String path = projectRoot + "/src/main/resources/users.json";
+    String path = projectRoot + "src/main/resources/vehicles.json";
+
     Writer writer = Files.newBufferedWriter(Paths.get(path));
     writer.write(jsonContent);
     writer.close();

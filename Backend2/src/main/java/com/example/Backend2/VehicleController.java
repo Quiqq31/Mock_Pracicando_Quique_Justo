@@ -9,21 +9,22 @@ import java.util.*;
 @RestController
 @RequestMapping("/vehicles")
 public class VehicleController {
-
-    private ArrayList<Vehicle> vehicles = new ArrayList<>();
-    private final String filePath = "src/main/resources/vehicles.json";
     
-
-    @GetMapping
-    public ArrayList<Vehicle> getVehicles() {
-
+    @GetMapping("/vehicles")
+    public ArrayList<Vehicle> getVehicles() throws IOException{
+        JsonManager manager = new JsonManager();
+        ArrayList<Vehicle> vehicles = manager.getVehicles();
 
         return vehicles;
     }
 
-    @PostMapping
-    public void addVehicle(@RequestBody Vehicle vehicle) {
-        
-        
+    @PostMapping("/vehicles")
+    public void createVehicle(@RequestBody Vehicle newVehicle) throws IOException {
+        JsonManager manager = new JsonManager();
+        ArrayList<Vehicle> vehicleList = manager.getVehicles();
+
+        vehicleList.add(newVehicle);
+        manager.saveVehicles(vehicleList);
+
     }
 }
