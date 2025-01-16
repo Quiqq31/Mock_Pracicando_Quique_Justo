@@ -23,12 +23,12 @@ public class VehicleController {
         ArrayList<Vehicle> vehicleList = manager.getVehicles();
 
         // sin datos de entrada, se genera un vehículo aleatorio
-        newVehicle.setLicensePlate("YYY-0000");
-        newVehicle.setMake("Toyota");
-        newVehicle.setModel("Yaris GR");
-        newVehicle.setType("Copue");
-        newVehicle.setYear(2021);
-        newVehicle.setAvailability(true);
+        // newVehicle.setLicensePlate("YYY-0000");
+        // newVehicle.setMake("Toyota");
+        // newVehicle.setModel("Yaris GR");
+        // newVehicle.setType("Copue");
+        // newVehicle.setYear(2021);
+        // newVehicle.setAvailability(true);
 
         vehicleList.add(newVehicle);
         manager.saveVehicles(vehicleList);
