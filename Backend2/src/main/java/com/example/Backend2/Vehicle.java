@@ -9,14 +9,16 @@ public class Vehicle {
     private String type;
     private String licensePlate;
     private String uuid;
+    private boolean availability;
 
-    public Vehicle(String make, String model, int year, String type, String licensePlate) {
+    public Vehicle(String make, String model, int year, String type, String licensePlate, boolean availability) {
         this.make = make;
         this.model = model;
         this.year = year;
         this.type = type;
         this.licensePlate = licensePlate;
         this.uuid = UUID.randomUUID().toString();
+        this.availability = availability;
     }
 
     // Getters and Setters
@@ -36,11 +38,11 @@ public class Vehicle {
         this.model = model;
     }
 
-    public int getYearOfManufacture() {
+    public int getYear() {
         return year;
     }
 
-    public void setYearOfManufacture(int year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
@@ -52,11 +54,11 @@ public class Vehicle {
         this.type = type;
     }
 
-    public String getLicensePlateNumber() {
+    public String getLicensePlate() {
         return licensePlate;
     }
 
-    public void setLicensePlateNumber(String licensePlate) {
+    public void setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
     }
 
@@ -65,4 +67,12 @@ public class Vehicle {
     }
 
     // No setter for UUID as it should be auto-generated
+
+    public boolean getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
+    }
 }

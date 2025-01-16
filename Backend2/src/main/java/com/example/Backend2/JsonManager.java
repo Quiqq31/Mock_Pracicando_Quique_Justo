@@ -12,8 +12,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class JsonManager {
     public ArrayList<Vehicle> getVehicles() throws IOException{
-    String root = System.getProperty("user.dir");
-    String path = root + "src/main/resources/vehicles.json";
+    String path = "src/main/resources/vehicles.json";
 
     String jsonContent = new String(Files.readAllBytes(Paths.get(path)));
 
@@ -27,8 +26,7 @@ public class JsonManager {
     Gson gson = new Gson();
     String jsonContent = gson.toJson(vehicles);
 
-    String projectRoot = System.getProperty("user.dir");
-    String path = projectRoot + "src/main/resources/vehicles.json";
+    String path = "src/main/resources/vehicles.json";
 
     Writer writer = Files.newBufferedWriter(Paths.get(path));
     writer.write(jsonContent);
