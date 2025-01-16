@@ -21,6 +21,17 @@ public class Vehicle {
         this.availability = availability;
     }
 
+    // Constructor for the tests, because the UUID is not generated in the tests
+    public Vehicle(String make, String model, int year, String type, String licensePlate, boolean availability, String id_general) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.type = type;
+        this.licensePlate = licensePlate;
+        this.uuid = id_general;
+        this.availability = availability;
+    }
+
     // Getters and Setters
     public String getMake() {
         return make;
